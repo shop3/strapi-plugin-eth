@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/strapify/strapi-plugin-eth.git"
+    "url": "https://github.com/shop3/strapi-plugin-eth.git"
   },
   "scripts": {
     "release": "standard-version",
