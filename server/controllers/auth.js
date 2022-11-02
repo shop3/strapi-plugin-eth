@@ -19,7 +19,7 @@ module.exports = {
     return {
       success: typeof address !== 'undefined',
       address,
-    }
+    };
   },
 
   async signIn(ctx) {
@@ -64,4 +64,4 @@ module.exports = {
       success: true,
     };
   },
-}
+};

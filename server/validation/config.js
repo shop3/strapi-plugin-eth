@@ -30,13 +30,19 @@ const configSchema = yup.object().shape({
     )
     .required()
     .min(1),
-  wallet: yup.object().shape({
-    privateKey: yup.string().required(),
-  }).optional(),
-  auth: yup.object().shape({
-    keys: yup.array().of(yup.string()).required().min(1),
-    domain: yup.string().required(),
-  }).required(),
+  wallet: yup
+    .object()
+    .shape({
+      privateKey: yup.string().required(),
+    })
+    .optional(),
+  auth: yup
+    .object()
+    .shape({
+      keys: yup.array().of(yup.string()).required().min(1),
+      domain: yup.string().required(),
+    })
+    .required(),
 });
 
 module.exports = {

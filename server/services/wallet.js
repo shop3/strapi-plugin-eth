@@ -13,5 +13,5 @@ module.exports = ({ strapi }) => ({
     // create wallet from private key
     const wallet = new ethers.Wallet('0x' + privateKey);
     return wallet;
-  }
+  },
 });

@@ -8,5 +8,7 @@ module.exports = ({ strapi }) => {
     const walletService = strapi.service('plugin::eth.wallet');
     const wallet = walletService.getWallet();
     strapi.log.info('Wallet address: ' + wallet.address);
-  } catch { }
+  } catch {
+    strapi.log.warn('Wallet is disabled');
+  }
 };
