@@ -27,7 +27,8 @@
     "commit-msg": "commitlint --edit"
   },
   "dependencies": {
-    "ethers": "^5.5.3"
+    "ethers": "^5.5.1",
+    "siwe": "^1.1.6"
   },
   "peerDependencies": {
     "@strapi/design-system": "^1.2.0",
