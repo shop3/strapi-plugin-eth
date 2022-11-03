@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "eth_accounts",
+  "info": {
+    "singularName": "account",
+    "pluralName": "accounts",
+    "displayName": "Account",
+    "name": "Account"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "address": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "configurable": false
+    }
+  }
+}

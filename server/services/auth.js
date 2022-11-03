@@ -1,30 +1,52 @@
 'use strict';
 
-const { generateNonce, SiweMessage } = require('siwe');
+const { SiweMessage } = require('siwe');
 
 module.exports = ({ strapi }) => ({
-  generateNonce() {
-    return generateNonce();
-  },
-
   async authenticate(message, signature) {
     // create siwe message
     const siweMessage = new SiweMessage(message);
     // get the provider service
     const provider = strapi.service('plugin::eth.provider').getProvider(siweMessage.chainId);
-    // validate siwe message
-    try {
-      await siweMessage.validate(signature, provider);
-    } catch (e) {
-      strapi.log.error(e.message);
-      throw new Error('Failed to validate SIWE message - Invalid signature');
-    }
-
     // get the domain
     const domain = strapi.config.get('plugin.eth.auth.domain');
-    // compare it with message domain
-    if (siweMessage.domain !== domain) {
-      throw new Error('Failed to validate SIWE message - Invalid domain');
+    // validate siwe message
+    try {
+      await siweMessage.verify({
+        signature,
+        domain,
+      }, {
+        provider,
+      });
+    } catch (e) {
+      strapi.log.error(e.error.type);
+      throw new Error('Failed to validate SIWE message - Invalid signature');
     }
+    // get nonce service
+    const nonceService = strapi.service('plugin::eth.nonce');
+    // check if nonce is used
+    const isUsed = await nonceService.isUsedNonce(siweMessage.address, siweMessage.nonce);
+    if (isUsed) {
+      throw new Error('Failed to validate SIWE message - Nonce is already used');
+    }
+    // get account service
+    const accountService = strapi.service('plugin::eth.account');
+    // get account by address
+    let account = await accountService.findByAddress(siweMessage.address);
+    if (account === null) {
+      // create account
+      account = await accountService.create({
+        data: {
+          address: siweMessage.address
+        }
+      });
+    }
+    // create nonce
+    await nonceService.create({
+      data: {
+        value: siweMessage.nonce,
+        account: account.id,
+      }
+    });
   },
 });

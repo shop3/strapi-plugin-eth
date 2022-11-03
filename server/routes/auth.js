@@ -12,7 +12,7 @@ module.exports = [
   {
     method: 'GET',
     path: '/eth/authenticated',
-    handler: 'auth.nonce',
+    handler: 'auth.authenticated',
     config: {
       prefix: '',
     },
@@ -20,7 +20,7 @@ module.exports = [
   {
     method: 'POST',
     path: '/eth/authenticate',
-    handler: 'auth.signIn',
+    handler: 'auth.authenticate',
     config: {
       prefix: '',
     },
@@ -28,7 +28,7 @@ module.exports = [
   {
     method: 'POST',
     path: '/eth/logout',
-    handler: 'auth.signOut',
+    handler: 'auth.logout',
     config: {
       prefix: '',
     },

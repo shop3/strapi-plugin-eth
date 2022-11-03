@@ -3,8 +3,12 @@
 const Cookies = require('cookies');
 
 module.exports = {
-  nonce() {
-    const nonce = strapi.service('plugin::eth.auth').generateNonce();
+  async nonce(ctx) {
+    const { address } = ctx.query;
+    if (!address) {
+      return ctx.badRequest('Missing address in query');
+    }
+    const nonce = await strapi.service('plugin::eth.nonce').generateNonce(address);
     return { nonce };
   },
 
@@ -22,7 +26,7 @@ module.exports = {
     };
   },
 
-  async signIn(ctx) {
+  async authenticate(ctx) {
     const { message, signature } = ctx.request.body;
     const authService = strapi.service('plugin::eth.auth');
     try {
@@ -47,7 +51,7 @@ module.exports = {
     };
   },
 
-  async signOut(ctx) {
+  async logout(ctx) {
     // delete cookies
     const keys = strapi.config.get('plugin.eth.auth.keys');
     const cookies = new Cookies(ctx.req, ctx.res, {

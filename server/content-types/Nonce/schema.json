@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "eth_nonces",
+  "info": {
+    "singularName": "nonce",
+    "pluralName": "nonces",
+    "displayName": "Nonce",
+    "name": "Nonce"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "content-manager": {
+      "visible": false
+    },
+    "content-type-builder": {
+      "visible": false
+    }
+  },
+  "attributes": {
+    "value": {
+      "type": "string",
+      "required": true,
+      "configurable": false
+    },
+    "account": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::eth.account",
+      "required": true,
+      "configurable": false
+    }
+  }
+}
